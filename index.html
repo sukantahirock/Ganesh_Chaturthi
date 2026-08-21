@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>গণেশ উৎসব - বাংলার পূজো ও পার্বন</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            color: #fff;
+            text-align: center;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+        }
+        h2 {
+            font-size: 1.2rem;
+            color: #ffe600;
+            margin-bottom: 5px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px #000;
+        }
+        .ganesha-img {
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            margin: 15px 0;
+            border: 3px solid #fff;
+        }
+        .timer-box {
+            background: rgba(255, 255, 255, 0.2);
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 12px;
+        }
+        .timer-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .time-unit {
+            background: #fff;
+            color: #d32f2f;
+            padding: 8px;
+            border-radius: 8px;
+            min-width: 55px;
+            font-weight: bold;
+        }
+        .time-unit span {
+            display: block;
+            font-size: 1.3rem;
+        }
+        .time-unit label {
+            font-size: 0.7rem;
+            color: #333;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        .fb-link {
+            color: #ffe600;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>বাংলার পূজো ও পার্বন</h2>
+        <h1>শ্রী শ্রী গণেশ উৎসব</h1>
+
+        <!-- কালারফুল গণেশজির ছবি -->
+        <img class="ganesha-img" src="https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=600&auto=format&fit=crop" alt="Ganesha">
+
+        <!-- গণেশ চতুর্থী কাউন্টডাউন -->
+        <div class="timer-box">
+            <div class="timer-title">🌸 গণেশ চতুর্থী শুরু হতে বাকি 🌸</div>
+            <div class="countdown" id="puja-timer">
+                <div class="time-unit"><span id="p-days">00</span><label>দিন</label></div>
+                <div class="time-unit"><span id="p-hours">00</span><label>ঘণ্টা</label></div>
+                <div class="time-unit"><span id="p-mins">00</span><label>মিঃ</label></div>
+                <div class="time-unit"><span id="p-secs">00</span><label>সেঃ</label></div>
+            </div>
+        </div>
+
+        <!-- বিসর্জন কাউন্টডাউন -->
+        <div class="timer-box">
+            <div class="timer-title">🌊 গণেশ বিসর্জন (অনন্ত চতুর্দশী) বাকি 🌊</div>
+            <div class="countdown" id="visarjan-timer">
+                <div class="time-unit"><span id="v-days">00</span><label>দিন</label></div>
+                <div class="time-unit"><span id="v-hours">00</span><label>ঘণ্টা</label></div>
+                <div class="time-unit"><span id="v-mins">00</span><label>মিঃ</label></div>
+                <div class="time-unit"><span id="v-secs">00</span><label>সেঃ</label></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        সৌজন্যে: <a class="fb-link" href="#" target="_blank">বাংলার পূজো ও পার্বন</a>
+    </footer>
+
+    <script>
+        // তারিখ পরিবর্তন করুন (Year, MonthIndex 0-11, Day, Hour, Minute)
+        // উদাহরণ: সেপ্টেম্বর মাস হলে Month Index হবে 8 (কারণ Jan = 0)
+        const pujaDate = new Date(2026, 8, 14, 0, 0, 0).getTime(); // পূজোর তারিখ
+        const visarjanDate = new Date(2026, 8, 25, 0, 0, 0).getTime(); // বিসর্জনের তারিখ (১১ দিন পর)
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+
+            // পূজোর হিসাব
+            const pujaDist = pujaDate - now;
+            if (pujaDist > 0) {
+                document.getElementById("p-days").innerText = Math.floor(pujaDist / (1000 * 60 * 60 * 24));
+                document.getElementById("p-hours").innerText = Math.floor((pujaDist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("p-mins").innerText = Math.floor((pujaDist % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("p-secs").innerText = Math.floor((pujaDist % (1000 * 60)) / 1000);
+            } else {
+                document.getElementById("puja-timer").innerHTML = "<b>শুভ গণেশ চতুর্থী!</b>";
+            }
+
+            // বিসর্জনের হিসাব
+            const visarjanDist = visarjanDate - now;
+            if (visarjanDist > 0) {
+                document.getElementById("v-days").innerText = Math.floor(visarjanDist / (1000 * 60 * 60 * 24));
+                document.getElementById("v-hours").innerText = Math.floor((visarjanDist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("v-mins").innerText = Math.floor((visarjanDist % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("v-secs").innerText = Math.floor((visarjanDist % (1000 * 60)) / 1000);
+            } else {
+                document.getElementById("visarjan-timer").innerHTML = "<b>গণপতি বাপ্পা মোরিয়া, পুঢচ্যা বর্ষী লৌকর যা!</b>";
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
