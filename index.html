@@ -3,166 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>গণেশ উৎসব - বাংলার পূজো ও পার্বন</title>
+    <title>বাংলার পূজো ও পার্বন - উৎসব কাউন্টডাউন Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Bengali -->
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        festive: {
+                            crimson: '#800020',
+                            gold: '#D4AF37',
+                            saffron: '#FF9933',
+                            deepRed: '#B22222',
+                            darkGold: '#AA7C11',
+                            nightBg: '#1A0B10'
+                        }
+                    },
+                    fontFamily: {
+                        bengali: ['"Anek Bangla"', '"Hind Siliguri"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
         body {
-            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            font-family: 'Hind Siliguri', 'Anek Bangla', sans-serif;
+            background: linear-gradient(135deg, #2b0308 0%, #570912 40%, #800020 70%, #3a0007 100%);
             color: #fff;
-            text-align: center;
             min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            overflow-x: hidden;
+            position: relative;
         }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
+
+        /* Floating Flower Petals Effect */
+        .petal {
+            position: fixed;
+            top: -20px;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear infinite;
         }
-        h2 {
-            font-size: 1.2rem;
-            color: #ffe600;
-            margin-bottom: 5px;
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) rotate(0deg) scale(0.8);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg) scale(1.2);
+                opacity: 0.2;
+            }
         }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px #000;
+
+        /* Diya Glow Animation */
+        .diya-flame {
+            animation: flicker 1.2s ease-in-out infinite alternate;
+            transform-origin: bottom center;
         }
-        .ganesha-img {
-            width: 100%;
-            max-width: 280px;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            margin: 15px 0;
-            border: 3px solid #fff;
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); opacity: 0.9; }
+            50% { transform: scale(1.15) rotate(2deg); opacity: 1; filter: drop-shadow(0 0 10px #ff9900); }
+            100% { transform: scale(0.95) rotate(-1deg); opacity: 0.85; }
         }
-        .timer-box {
-            background: rgba(255, 255, 255, 0.2);
-            margin: 15px 0;
-            padding: 15px;
-            border-radius: 12px;
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(40, 5, 12, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
         }
-        .timer-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 10px;
+
+        .glass-card-active {
+            background: rgba(90, 10, 25, 0.85);
+            border: 2px solid #D4AF37;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
         }
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .time-unit {
-            background: #fff;
-            color: #d32f2f;
-            padding: 8px;
-            border-radius: 8px;
-            min-width: 55px;
-            font-weight: bold;
+        ::-webkit-scrollbar-track {
+            background: #1A0B10;
         }
-        .time-unit span {
-            display: block;
-            font-size: 1.3rem;
-        }
-        .time-unit label {
-            font-size: 0.7rem;
-            color: #333;
-        }
-        footer {
-            margin-top: 20px;
-            font-size: 0.9rem;
-        }
-        .fb-link {
-            color: #ffe600;
-            text-decoration: none;
-            font-weight: bold;
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body>
+<body class="pb-12 text-slate-100 antialiased selection:bg-amber-500 selection:text-black">
 
-    <div class="container">
-        <h2>বাংলার পূজো ও পার্বন</h2>
-        <h1>শ্রী শ্রী গণেশ উৎসব</h1>
+    <!-- Petals Container -->
+    <div id="petals-container"></div>
 
-        <!-- কালারফুল গণেশজির ছবি -->
-        <img class="ganesha-img" src="ganesh-chaturthi-7-2026-01-d59e10dafd146a0e1d8239993c269e0d.jpg?q=80&w=600&auto=format&fit=crop" alt="Ganesha">
+    <!-- Top Decorative Border -->
+    <div class="h-2 bg-gradient-to-r from-amber-500 via-yellow-300 to-amber-600 w-full shadow-lg"></div>
 
-        <!-- গণেশ চতুর্থী কাউন্টডাউন -->
-        <div class="timer-box">
-            <div class="timer-title">🌸 গণেশ চতুর্থী শুরু হতে বাকি 🌸</div>
-            <div class="countdown" id="puja-timer">
-                <div class="time-unit"><span id="p-days">00</span><label>দিন</label></div>
-                <div class="time-unit"><span id="p-hours">00</span><label>ঘণ্টা</label></div>
-                <div class="time-unit"><span id="p-mins">00</span><label>মিঃ</label></div>
-                <div class="time-unit"><span id="p-secs">00</span><label>সেঃ</label></div>
+    <!-- Header Section -->
+    <header class="py-6 px-4 text-center relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <!-- Diya Decorative Top Icon -->
+            <div class="flex justify-center items-center gap-3 mb-2">
+                <div class="w-12 h-1 bg-gradient-to-r from-transparent to-amber-400"></div>
+                <!-- Mini Diya SVG -->
+                <svg class="w-8 h-8 text-amber-400" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="diya-flame" d="M32 4C32 4 24 18 24 26C24 30.4183 27.5817 34 32 34C36.4183 34 40 30.4183 40 26C40 18 32 4 32 4Z" fill="#FF9900"/>
+                    <path class="diya-flame" d="M32 12C32 12 28 20 28 25C28 27.2 29.8 29 32 29C34.2 29 36 27.2 36 25C36 20 32 12 32 12Z" fill="#FFFF00"/>
+                    <path d="M10 34C10 34 16 54 32 54C48 54 54 34 54 34H10Z" fill="#D4AF37" stroke="#FFD700" stroke-width="2"/>
+                </svg>
+                <div class="w-12 h-1 bg-gradient-to-l from-transparent to-amber-400"></div>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 tracking-wide font-bengali drop-shadow-md">
+                বাংলার পূজো ও পার্বন
+            </h1>
+            <p class="text-sm sm:text-base text-amber-200/90 mt-1 font-medium tracking-wide">
+                ✨ বছরের সমস্ত বাঙালি ও ভারতীয় উৎসবের কাউন্টডাউন ও লাইভ আপডেট ✨
+            </p>
+
+            <!-- Audio & Action Bar -->
+            <div class="flex justify-center items-center gap-4 mt-4">
+                <button id="audio-toggle-btn" class="px-4 py-2 rounded-full glass-card border border-amber-400/40 text-amber-300 hover:text-white hover:border-amber-400 transition-all text-xs sm:text-sm font-semibold flex items-center gap-2 active:scale-95">
+                    <i class="fa-solid fa-music text-amber-400" id="audio-icon"></i>
+                    <span id="audio-text">উৎসবের ঢাকের বাদ্যি বাজান</span>
+                </button>
+                <a href="https://facebook.com" target="_blank" class="px-4 py-2 rounded-full bg-gradient-to-r from-blue-700 to-blue-900 text-white hover:from-blue-600 hover:to-blue-800 transition-all text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-lg border border-blue-400/30 active:scale-95">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <span>ফেসবুক পেজ ফলো করুন</span>
+                </a>
             </div>
         </div>
+    </header>
 
-        <!-- বিসর্জন কাউন্টডাউন -->
-        <div class="timer-box">
-            <div class="timer-title">🌊 গণেশ বিসর্জন (অনন্ত চতুর্দশী) বাকি 🌊</div>
-            <div class="countdown" id="visarjan-timer">
-                <div class="time-unit"><span id="v-days">00</span><label>দিন</label></div>
-                <div class="time-unit"><span id="v-hours">00</span><label>ঘণ্টা</label></div>
-                <div class="time-unit"><span id="v-mins">00</span><label>মিঃ</label></div>
-                <div class="time-unit"><span id="v-secs">00</span><label>সেঃ</label></div>
+    <!-- Main Content Area -->
+    <main class="max-w-4xl mx-auto px-4 relative z-10 space-y-8">
+
+        <!-- FEATURED HERO COUNTDOWN BANNER -->
+        <section id="featured-banner" class="glass-card-active rounded-3xl p-6 sm:p-8 relative overflow-hidden text-center transition-all duration-500">
+            <!-- Background Decorative Motif -->
+            <div class="absolute -right-16 -top-16 opacity-10 text-amber-300 pointer-events-none">
+                <i class="fa-solid fa-om text-[180px]"></i>
             </div>
-        </div>
-    </div>
+            
+            <div class="inline-block px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 text-xs sm:text-sm font-bold mb-3 tracking-wider">
+                🌟 পরবর্তী প্রধান উৎসব 🌟
+            </div>
 
-    <footer>
-        সৌজন্যে: <a class="fb-link" href="#" target="_blank">বাংলার পূজো ও পার্বন</a>
+            <h2 id="featured-title" class="text-2xl sm:text-4xl font-extrabold text-amber-300 font-bengali mb-1">
+                --
+            </h2>
+            <p id="featured-date" class="text-xs sm:text-sm text-amber-100/80 font-medium mb-6">
+                --
+            </p>
+
+            <!-- Featured Timer Grid -->
+            <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-md mx-auto mb-6">
+                <div class="bg-black/50 border border-amber-500/40 rounded-2xl p-2 sm:p-4 text-center shadow-inner">
+                    <span id="f-days" class="block text-2xl sm:text-4xl font-black text-amber-400 font-mono">00</span>
+                    <span class="text-[10px] sm:text-xs text-amber-200/80 uppercase font-semibold">দিন</span>
+                </div>
+                <div class="bg-black/50 border border-amber-500/40 rounded-2xl p-2 sm:p-4 text-center shadow-inner">
+                    <span id="f-hours" class="block text-2xl sm:text-4xl font-black text-amber-400 font-mono">00</span>
+                    <span class="text-[10px] sm:text-xs text-amber-200/80 uppercase font-semibold">ঘণ্টা</span>
+                </div>
+                <div class="bg-black/50 border border-amber-500/40 rounded-2xl p-2 sm:p-4 text-center shadow-inner">
+                    <span id="f-mins" class="block text-2xl sm:text-4xl font-black text-amber-400 font-mono">00</span>
+                    <span class="text-[10px] sm:text-xs text-amber-200/80 uppercase font-semibold">মিনিট</span>
+                </div>
+                <div class="bg-black/50 border border-amber-500/40 rounded-2xl p-2 sm:p-4 text-center shadow-inner">
+                    <span id="f-secs" class="block text-2xl sm:text-4xl font-black text-amber-400 font-mono">00</span>
+                    <span class="text-[10px] sm:text-xs text-amber-200/80 uppercase font-semibold">সেকেন্ড</span>
+                </div>
+            </div>
+
+            <p id="featured-wish" class="text-xs sm:text-sm italic text-amber-200/90 max-w-lg mx-auto mb-6">
+                --
+            </p>
+
+            <!-- Share Button for Featured -->
+            <button onclick="shareFestivalWish()" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-black font-bold text-sm shadow-lg transform transition active:scale-95 flex items-center gap-2 mx-auto">
+                <i class="fa-solid fa-share-nodes"></i>
+                <span>শুভচ্ছাবার্তা হোয়াটসঅ্যাপে শেয়ার করুন</span>
+            </button>
+        </section>
+
+        <!-- ALL FESTIVALS COUNTDOWN GRID -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between border-b border-amber-500/30 pb-2">
+                <h3 class="text-xl sm:text-2xl font-bold text-amber-300 font-bengali flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-days text-amber-400"></i>
+                    <span>আসন্ন সকল উৎসবের দিনপঞ্জি</span>
+                </h3>
+                <span class="text-xs text-amber-200/60">স্বয়ংক্রিয় আপডেট</span>
+            </div>
+
+            <!-- Grid Container -->
+            <div id="festivals-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Dynamically populated via JavaScript -->
+            </div>
+        </section>
+
+        <!-- INTERACTIVE FESTIVE WISH CARD CREATOR -->
+        <section class="glass-card rounded-3xl p-6 sm:p-8 border border-amber-500/40">
+            <div class="text-center mb-6">
+                <h3 class="text-xl sm:text-2xl font-bold text-amber-300 font-bengali">
+                    🎉 আপনার নামের ডিজিটাল উৎসবের শুভেচ্ছা কার্ড তৈরি করুন
+                </h3>
+                <p class="text-xs sm:text-sm text-amber-200/80 mt-1">
+                    নিজের বা প্রিয়জনের নাম লিখে হোয়াটসঅ্যাপ বা ফেসবুকের জন্য সুন্দর কার্ড তৈরি করুন
+                </p>
+            </div>
+
+            <div class="space-y-4 max-w-md mx-auto">
+                <div>
+                    <label class="block text-xs font-semibold text-amber-200 mb-1 text-left">আপনার নাম / পেজের নাম:</label>
+                    <input type="text" id="user-name-input" placeholder="এখানে নাম লিখুন (যেমন: রাহুল বা দাস পরিবার)" class="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-amber-500/50 text-white placeholder-amber-200/40 focus:outline-none focus:border-amber-400 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-amber-200 mb-1 text-left">উৎসব নির্বাচন করুন:</label>
+                    <select id="wish-festival-select" class="w-full px-4 py-2.5 rounded-xl bg-black/80 border border-amber-500/50 text-amber-200 focus:outline-none focus:border-amber-400 text-sm">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+
+                <!-- Generated Preview Box -->
+                <div id="wish-card-preview" class="p-5 rounded-2xl bg-gradient-to-br from-red-950 via-amber-950 to-amber-900 border-2 border-amber-400/80 text-center relative overflow-hidden shadow-xl mt-4">
+                    <div class="text-amber-400 text-xs font-bold uppercase tracking-widest mb-1">বাংলার পূজো ও পার্বন</div>
+                    <div id="preview-festival-name" class="text-lg font-bold text-yellow-300 font-bengali">--</div>
+                    <div id="preview-greeting" class="text-xs sm:text-sm text-amber-100 my-3 italic">--</div>
+                    <div id="preview-sender" class="text-sm font-extrabold text-amber-300 border-t border-amber-500/40 pt-2 inline-block px-4">
+                        শুভেচ্ছান্তে: আপনার নাম
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button onclick="copyWishCardText()" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-black font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>লেখা কপি করুন</span>
+                    </button>
+                    <button onclick="shareWishCardWhatsApp()" class="flex-1 py-2.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span>হোয়াটসঅ্যাপে পাঠান</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 text-center text-xs text-amber-200/70 py-6 border-t border-amber-500/20 relative z-10">
+        <p class="font-medium">
+            পরিকল্পনা ও পরিচালনায়: <span class="text-amber-300 font-bold">বাংলার পূজো ও পার্বন</span> (Banglar Pujo O Parbon)
+        </p>
+        <p class="text-[11px] mt-1 text-amber-200/50">
+            সর্বস্বত্ব সংরক্ষিত © <span id="current-year"></span> | সকল ধর্মীয় ও লোকজ উৎসবের আন্তরিক শুভেচ্ছা
+        </p>
     </footer>
 
-    <script>
-        // তারিখ পরিবর্তন করুন (Year, MonthIndex 0-11, Day, Hour, Minute)
-        // উদাহরণ: সেপ্টেম্বর মাস হলে Month Index হবে 8 (কারণ Jan = 0)
-        const pujaDate = new Date(2026, 8, 14, 0, 0, 0).getTime(); // পূজোর তারিখ
-        const visarjanDate = new Date(2026, 8, 25, 0, 0, 0).getTime(); // বিসর্জনের তারিখ (১১ দিন পর)
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-amber-400 text-black px-5 py-2.5 rounded-full font-bold text-xs shadow-2xl z-50 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-base"></i>
+        <span id="toast-msg">কপি করা হয়েছে!</span>
+    </div>
 
-        function updateCountdown() {
+    <!-- JavaScript Engine -->
+    <script>
+        // --- FESTIVALS CONFIGURATION DATABASE ---
+        // Dynamically handles recurring annual dates
+        const festivalDatabase = [
+            {
+                id: 'durga-puja',
+                name: 'শ্রী শ্রী দুর্গোৎসব (মহালয়া ও পূজো)',
+                icon: 'fa-om',
+                month: 9, // October (0-indexed: 9 = Oct)
+                day: 16,  // Estimated target
+                greetings: 'মা দুর্গার আগমনীতে আপনার ও আপনার পরিবারের সকল সদস্যকে শারদীয়া দুর্গোৎসবের প্রীতি ও শুভেচ্ছা!',
+                image: '🌸'
+            },
+            {
+                id: 'kali-puja',
+                name: 'শ্রী শ্রী কালীপূজো ও দীপাবলী',
+                icon: 'fa-fire',
+                month: 10, // November
+                day: 4,
+                greetings: 'শ্যামাপূজো ও শুভ দীপাবলীর আলোর উৎসবে ভরে উঠুক আপনার জীবন। শুভ দীপাবলী!',
+                image: '🪔'
+            },
+            {
+                id: 'jagaddhatri-puja',
+                name: 'জগদ্ধাত্রী পূজো',
+                icon: 'fa-spa',
+                month: 10, // November
+                day: 12,
+                greetings: 'দেবী জগদ্ধাত্রীর কৃপায় সবার জীবন সুখ ও শান্তিতে ভরে উঠুক। শুভ জগদ্ধাত্রী পূজো!',
+                image: '🌺'
+            },
+            {
+                id: 'saraswati-puja',
+                name: 'বসন্ত পঞ্চমী ও সরস্বতী পূজো',
+                icon: 'fa-book-open text-amber-300',
+                month: 1, // February
+                day: 13,
+                greetings: 'বিদ্যা ও সুরের দেবী মা সরস্বতীর চরণে জানাই প্রণাম। শুভ সরস্বতী পূজো!',
+                image: '🌼'
+            },
+            {
+                id: 'poila-boishakh',
+                name: 'পয়লা বৈশাখ (শুভ নববর্ষ)',
+                icon: 'fa-sun',
+                month: 3, // April
+                day: 14,
+                greetings: 'নতুন বছর নিয়ে আসুক নতুন আশা ও আনন্দ। শুভ নববর্ষ!',
+                image: '🎋'
+            },
+            {
+                id: 'ganesh-chaturthi',
+                name: 'শ্রী শ্রী গণেশ চতুর্থী',
+                icon: 'fa-hands-praying',
+                month: 7, // August
+                day: 27,
+                greetings: 'গণপতি বাপ্পা মোরিয়া! সিদ্ধিদাতা গণেশের আশীর্বাদে দূর হোক সমস্ত বিঘ্ন।',
+                image: '🐘'
+            }
+        ];
+
+        let activeFestivals = [];
+        let featuredFestival = null;
+        let audioContext = null;
+        let isAudioPlaying = false;
+        let audioInterval = null;
+
+        // Initialize App Date logic
+        function initFestivals() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            document.getElementById('current-year').innerText = currentYear;
+
+            // Calculate precise next dates for each festival
+            activeFestivals = festivalDatabase.map(fest => {
+                let festDate = new Date(currentYear, fest.month, fest.day, 0, 0, 0);
+                
+                // If date has passed this year, set to next year
+                if (festDate.getTime() < now.getTime()) {
+                    festDate = new Date(currentYear + 1, fest.month, fest.day, 0, 0, 0);
+                }
+
+                return {
+                    ...fest,
+                    targetDate: festDate
+                };
+            });
+
+            // Sort by earliest upcoming
+            activeFestivals.sort((a, b) => a.targetDate - b.targetDate);
+
+            // Featured is the closest upcoming
+            featuredFestival = activeFestivals[0];
+
+            renderFeatured();
+            renderGrid();
+            populateWishDropdown();
+        }
+
+        // Render Hero Banner
+        function renderFeatured() {
+            document.getElementById('featured-title').innerText = featuredFestival.name;
+            
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            const formattedDate = featuredFestival.targetDate.toLocaleDateString('bn-BD', options);
+            document.getElementById('featured-date').innerText = `তারিখ: ${formattedDate}`;
+            document.getElementById('featured-wish').innerText = `"${featuredFestival.greetings}"`;
+        }
+
+        // Render All Cards Grid
+        function renderGrid() {
+            const container = document.getElementById('festivals-grid');
+            container.innerHTML = '';
+
+            activeFestivals.forEach((fest, idx) => {
+                const options = { month: 'short', day: 'numeric', year: 'numeric' };
+                const dateStr = fest.targetDate.toLocaleDateString('bn-BD', options);
+
+                const card = document.createElement('div');
+                card.className = `glass-card rounded-2xl p-5 border transition-all duration-300 hover:border-amber-400/80 ${idx === 0 ? 'border-amber-400/60 bg-amber-950/20' : 'border-amber-500/20'}`;
+                
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2.5">
+                            <span class="text-2xl">${fest.image}</span>
+                            <div>
+                                <h4 class="font-bold text-amber-200 text-base font-bengali leading-snug">${fest.name}</h4>
+                                <span class="text-[11px] text-amber-100/60 font-medium">${dateStr}</span>
+                            </div>
+                        </div>
+                        ${idx === 0 ? '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-400/40">আসন্ন</span>' : ''}
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-1.5 text-center mt-3 bg-black/40 p-2 rounded-xl border border-amber-500/20" id="card-timer-${fest.id}">
+                        <div class="p-1"><span class="block font-bold text-amber-400 text-sm font-mono days">00</span><span class="text-[9px] text-amber-200/60">দিন</span></div>
+                        <div class="p-1"><span class="block font-bold text-amber-400 text-sm font-mono hours">00</span><span class="text-[9px] text-amber-200/60">ঘণ্টা</span></div>
+                        <div class="p-1"><span class="block font-bold text-amber-400 text-sm font-mono mins">00</span><span class="text-[9px] text-amber-200/60">মিঃ</span></div>
+                        <div class="p-1"><span class="block font-bold text-amber-400 text-sm font-mono secs">00</span><span class="text-[9px] text-amber-200/60">সেঃ</span></div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Live Timers Loop
+        function updateAllCountdowns() {
             const now = new Date().getTime();
 
-            // পূজোর হিসাব
-            const pujaDist = pujaDate - now;
-            if (pujaDist > 0) {
-                document.getElementById("p-days").innerText = Math.floor(pujaDist / (1000 * 60 * 60 * 24));
-                document.getElementById("p-hours").innerText = Math.floor((pujaDist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById("p-mins").innerText = Math.floor((pujaDist % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById("p-secs").innerText = Math.floor((pujaDist % (1000 * 60)) / 1000);
-            } else {
-                document.getElementById("puja-timer").innerHTML = "<b>শুভ গণেশ চতুর্থী!</b>";
+            // 1. Featured Timer Update
+            const featuredDiff = featuredFestival.targetDate.getTime() - now;
+            if (featuredDiff > 0) {
+                document.getElementById('f-days').innerText = String(Math.floor(featuredDiff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                document.getElementById('f-hours').innerText = String(Math.floor((featuredDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById('f-mins').innerText = String(Math.floor((featuredDiff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                document.getElementById('f-secs').innerText = String(Math.floor((featuredDiff % (1000 * 60)) / 1000)).padStart(2, '0');
             }
 
-            // বিসর্জনের হিসাব
-            const visarjanDist = visarjanDate - now;
-            if (visarjanDist > 0) {
-                document.getElementById("v-days").innerText = Math.floor(visarjanDist / (1000 * 60 * 60 * 24));
-                document.getElementById("v-hours").innerText = Math.floor((visarjanDist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById("v-mins").innerText = Math.floor((visarjanDist % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById("v-secs").innerText = Math.floor((visarjanDist % (1000 * 60)) / 1000);
-            } else {
-                document.getElementById("visarjan-timer").innerHTML = "<b>গণপতি বাপ্পা মোরিয়া, পুঢচ্যা বর্ষী লৌকর যা!</b>";
+            // 2. Grid Cards Update
+            activeFestivals.forEach(fest => {
+                const diff = fest.targetDate.getTime() - now;
+                const cardEl = document.getElementById(`card-timer-${fest.id}`);
+                if (cardEl && diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    cardEl.querySelector('.days').innerText = String(days).padStart(2, '0');
+                    cardEl.querySelector('.hours').innerText = String(hours).padStart(2, '0');
+                    cardEl.querySelector('.mins').innerText = String(mins).padStart(2, '0');
+                    cardEl.querySelector('.secs').innerText = String(secs).padStart(2, '0');
+                }
+            });
+        }
+
+        // --- WISH CARD GENERATOR LOGIC ---
+        function populateWishDropdown() {
+            const select = document.getElementById('wish-festival-select');
+            select.innerHTML = '';
+            activeFestivals.forEach(fest => {
+                const opt = document.createElement('option');
+                opt.value = fest.id;
+                opt.innerText = fest.name;
+                select.appendChild(opt);
+            });
+
+            select.addEventListener('change', updateWishPreview);
+            document.getElementById('user-name-input').addEventListener('input', updateWishPreview);
+            updateWishPreview();
+        }
+
+        function updateWishPreview() {
+            const nameInput = document.getElementById('user-name-input').value.trim();
+            const selectedFestId = document.getElementById('wish-festival-select').value;
+            const festObj = activeFestivals.find(f => f.id === selectedFestId) || activeFestivals[0];
+
+            document.getElementById('preview-festival-name').innerText = `${festObj.image} ${festObj.name} ${festObj.image}`;
+            document.getElementById('preview-greeting').innerText = `"${festObj.greetings}"`;
+            document.getElementById('preview-sender').innerText = `শুভেচ্ছান্তে: ${nameInput || 'আপনার নাম'}`;
+        }
+
+        function getWishTextFormatted() {
+            const nameInput = document.getElementById('user-name-input').value.trim() || 'বাংলার পূজো ও পার্বন শুভানুধ্যায়ী';
+            const selectedFestId = document.getElementById('wish-festival-select').value;
+            const festObj = activeFestivals.find(f => f.id === selectedFestId) || activeFestivals[0];
+
+            return `✨ ${festObj.name} ✨\n\n"${festObj.greetings}"\n\nশুভেচ্ছান্তে: ${nameInput}\n\n👉 আরও উৎসবের আপডেট পেতে ভিজিট করুন: "বাংলার পূজো ও পার্বন"`;
+        }
+
+        function copyWishCardText() {
+            const text = getWishTextFormatted();
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            showToast('শুভেচ্ছাবার্তা কপি করা হয়েছে!');
+        }
+
+        function shareWishCardWhatsApp() {
+            const text = encodeURIComponent(getWishTextFormatted());
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        }
+
+        function shareFestivalWish() {
+            const text = encodeURIComponent(`🌸 ${featuredFestival.name}-এর আর মাত্র কয়েক দিন বাকি! 🌸\n\n"${featuredFestival.greetings}"\n\nসকল উৎসবের লাইভ কাউন্টডাউন দেখতে যুক্ত থাকুন "বাংলার পূজো ও পার্বন" পেজে!`);
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2500);
+        }
+
+        // --- WEB AUDIO API (Festive Dhak & Shankha Synthesizer) ---
+        function playDhakRhythm() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (isAudioPlaying) {
+                clearInterval(audioInterval);
+                isAudioPlaying = false;
+                document.getElementById('audio-icon').className = 'fa-solid fa-music text-amber-400';
+                document.getElementById('audio-text').innerText = 'উৎসবের ঢাকের বাদ্যি বাজান';
+                return;
+            }
+
+            isAudioPlaying = true;
+            document.getElementById('audio-icon').className = 'fa-solid fa-volume-high text-yellow-300 animate-pulse';
+            document.getElementById('audio-text').innerText = 'বাদ্যি বন্ধ করুন';
+
+            // Dhak Beat Pattern Synthesizer
+            let step = 0;
+            audioInterval = setInterval(() => {
+                if (!isAudioPlaying) return;
+                
+                const now = audioContext.currentTime;
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+
+                if (step % 4 === 0) {
+                    // Deep Dhak Beat (Bhoom)
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(120, now);
+                    osc.frequency.exponentialRampToValueAtTime(40, now + 0.15);
+                    gain.gain.setValueAtTime(0.8, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.22);
+                } else {
+                    // Taku Taku High Stick Hit
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(450, now);
+                    osc.frequency.exponentialRampToValueAtTime(180, now + 0.05);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                }
+
+                step = (step + 1) % 8;
+            }, 180);
+        }
+
+        document.getElementById('audio-toggle-btn').addEventListener('click', playDhakRhythm);
+
+        // --- FLOATING PETALS ANIMATION ---
+        function createPetals() {
+            const container = document.getElementById('petals-container');
+            const petalCount = 15;
+            const colors = ['#FFD700', '#FF9933', '#FF4500', '#FFA500'];
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                
+                const size = Math.random() * 12 + 8;
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size * 1.3}px`;
+                petal.style.background = colors[Math.floor(Math.random() * colors.length)];
+                petal.style.borderRadius = '50% 0% 50% 50%';
+                petal.style.left = `${Math.random() * 100}vw`;
+                petal.style.animationDuration = `${Math.random() * 5 + 6}s`;
+                petal.style.animationDelay = `${Math.random() * 5}s`;
+
+                container.appendChild(petal);
             }
         }
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        // --- APP LAUNCHER ---
+        window.onload = function() {
+            initFestivals();
+            setInterval(updateAllCountdowns, 1000);
+            updateAllCountdowns();
+            createPetals();
+        };
     </script>
 </body>
 </html>
